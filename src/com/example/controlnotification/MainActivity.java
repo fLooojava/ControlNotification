@@ -4,11 +4,14 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.Socket;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.StrictMode;
 
 
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 
 
@@ -31,6 +34,8 @@ public class MainActivity extends Activity
 	int countT2 = 0;
 	PrintWriter writer;
 	Socket sock;
+	
+	
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,13 +61,14 @@ public class MainActivity extends Activity
 		
 		btnPlusT1.setOnClickListener(new View.OnClickListener(){
 		
+		
 			public void onClick(View v) {
 				
 				countT1++;
 				final String counts = String.valueOf(countT1);
 				txtT1.setText(counts);
 				network();
-				sendData();
+				sendData(counts);
 			}
 		});
 		btnPlusT2.setOnClickListener(new View.OnClickListener(){
@@ -71,6 +77,8 @@ public class MainActivity extends Activity
 				countT2++;
 				final String counts = String.valueOf(countT2);
 				txtT2.setText(counts);
+				network();
+				sendData(counts);
 			}
 		});
 		btnMinT1.setOnClickListener(new View.OnClickListener(){
@@ -79,6 +87,8 @@ public class MainActivity extends Activity
 				countT1--;
 				final String counts = String.valueOf(countT1);
 				txtT1.setText(counts);
+				network();
+				sendData(counts);
 			}
 		});
 		btnMinT2.setOnClickListener(new View.OnClickListener(){
@@ -87,18 +97,24 @@ public class MainActivity extends Activity
 				countT2--;
 				final String counts = String.valueOf(countT2);
 				txtT2.setText(counts);
+				network();
+				sendData(counts);
 			}
 		});
 		btnReset.setOnClickListener(new View.OnClickListener(){
 			
 			public void onClick(View v) {
 				
-				int countT1 = 0;
-				int countT2 = 0;
-				final String count1 = String.valueOf(countT1);
-				final String count2 = String.valueOf(countT2);
+				countT1=0;
+				countT2=0;
+				final String count1 ="0";
+				final String count2 = "0";
 				txtT1.setText(count1);
 				txtT2.setText(count2);
+				network();
+				sendData(count1);
+				sendData(count2);
+
 			}
 		});
 	
@@ -107,9 +123,13 @@ public class MainActivity extends Activity
 		    public  void onClick(View v) {
 		        // Handle click event.
 		    	
-				//CharSequence inputstring = input.getText();
-				//int time = Integer.parseInt(inputstring.toString());
-				int time = 5;
+				CharSequence inputstring = input.getText();
+				int time = Integer.parseInt(inputstring.toString());
+				//int time = 5;
+				String string = String.valueOf(inputstring);
+				network();
+				sendData(string);
+
 				timer = new CountDownTimer(time*60*1000, 1000) {
 				
 					 public void onTick(long millisUntilFinished) {
@@ -132,6 +152,7 @@ public class MainActivity extends Activity
 				
 			//output.setText("blub");
 			timer.cancel();
+
 			
 			}
 		});
@@ -139,10 +160,18 @@ public class MainActivity extends Activity
 	
 
 	
-	private void network(){
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		// Inflate the menu; this adds items to the action bar if it is present.
+		getMenuInflater().inflate(R.menu.main, menu);
+		return true;
+	}
+	
+	public void network(){
 		try {
-			String ip = "172.0.0.1";
-			int port = 21;
+			String ip = "192.168.0.13";
+			int port = 1234; 
 			sock = new Socket(ip,port);
 			 System.out.println("Connected to:"+ip+" on port:"+port);//debug
 			writer = new PrintWriter(sock.getOutputStream());
@@ -153,19 +182,14 @@ public class MainActivity extends Activity
 		}
 		
 	}
-	private void sendData(){
-		try{writer.println("test message");
+	public void sendData(String value){
+		try{writer.println(value);
 		writer.flush();
 		} catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
 
-}
+	
+	}
 

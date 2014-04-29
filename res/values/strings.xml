@@ -4,5 +4,9 @@
     <string name="app_name">ControlNotification</string>
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
-<color name="blue">#819FF7</color>
+
+    <color name="blue">#819FF7</color>
+
+    <string name="title_activity_test">Test</string>
+
 </resources>
