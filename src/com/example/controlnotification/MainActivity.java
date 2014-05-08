@@ -4,26 +4,14 @@ import java.io.BufferedReader;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.io.PrintWriter;
+
 import java.net.Socket;
-
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.os.StrictMode;
-
-
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
-
-
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ToggleButton;
+
 
 
 import android.widget.TextView;
