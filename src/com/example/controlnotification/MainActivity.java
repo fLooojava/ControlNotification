@@ -1,6 +1,11 @@
 package com.example.controlnotification;
 
+import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.Socket;
 
@@ -27,13 +32,10 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity
 {
-	
-	
-	protected CountDownTimer	timer;
+
 	int countT1 = 0;
 	int countT2 = 0;
-	PrintWriter writer;
-	Socket sock;
+	Socket socket;
 	
 	
 
@@ -43,20 +45,18 @@ public class MainActivity extends Activity
 		setContentView(R.layout.activity_main);
 		
 		
-		// Buttons,Textviews,... initialisieren
-		final Button btnStart = (Button) findViewById(R.id.btnStart);
-		final Button buttonStop = (Button) findViewById(R.id.btnStop);
-		final TextView output = (TextView)findViewById(R.id.TextViewOutput);
+
+		final Button btnSendtime = (Button) findViewById(R.id.btnSendtime);
 		final TextView input = (TextView)findViewById(R.id.txtInput);
 		final Button btnPlusT1 = (Button) findViewById(R.id.btnPlusT1);
 		final Button btnPlusT2 = (Button) findViewById(R.id.btnPlusT2);
 		final Button btnMinT1 = (Button) findViewById(R.id.btnMinT1);
 		final Button btnMinT2 = (Button) findViewById(R.id.btnMinT2);
-		final TextView txtT1 = (TextView) findViewById(R.id.txtviewScore1);
-		final TextView txtT2 = (TextView) findViewById(R.id.txtviewScore2);
+		final TextView txtOutput = (TextView)findViewById(R.id.txtOutput);
+		final Button btnBreak = (Button) findViewById(R.id.btnBreak);
+
+		
 		final Button btnReset = (Button) findViewById(R.id.btnReset);
-		final ToggleButton togglebtnSound1 = (ToggleButton) findViewById(R.id.togglebtnSound1);
-		final ToggleButton togglebtnSound2 = (ToggleButton) findViewById(R.id.togglebtnSound2);
 
 		
 		btnPlusT1.setOnClickListener(new View.OnClickListener(){
@@ -65,101 +65,136 @@ public class MainActivity extends Activity
 			public void onClick(View v) {
 				
 				countT1++;
-				final String counts = String.valueOf(countT1);
-				txtT1.setText(counts);
-				network();
-				sendData(counts);
+				String counts = String.valueOf(countT1);
+				txtOutput.setText("Team 1:  " + counts);
+				String team = "t1";
+				String data = team + counts;
+				try {
+					test(data);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnPlusT2.setOnClickListener(new View.OnClickListener(){
 			public void onClick(View v) {
 				
 				countT2++;
-				final String counts = String.valueOf(countT2);
-				txtT2.setText(counts);
-				network();
-				sendData(counts);
+				String counts = String.valueOf(countT2);
+				txtOutput.setText("Team 2:  " + counts);
+				String team = "t2";
+				String data = team + counts;
+				try {
+					test(data);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	
 			}
 		});
 		btnMinT1.setOnClickListener(new View.OnClickListener(){
 			public void onClick(View v) {
 				
 				countT1--;
-				final String counts = String.valueOf(countT1);
-				txtT1.setText(counts);
-				network();
-				sendData(counts);
+				String counts = String.valueOf(countT1);
+				txtOutput.setText("Team 1:  " + counts);
+				String team = "t1";
+				String data = team + counts;
+				try {
+					test(data);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 		btnMinT2.setOnClickListener(new View.OnClickListener(){
 			public void onClick(View v) {
 				
 				countT2--;
-				final String counts = String.valueOf(countT2);
-				txtT2.setText(counts);
-				network();
-				sendData(counts);
+				String counts = String.valueOf(countT2);
+				txtOutput.setText("Team 2:  " + counts);
+				String team = "t2";
+				String data = team + counts;
+				try {
+					test(data);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
 			}
 		});
 		btnReset.setOnClickListener(new View.OnClickListener(){
 			
 			public void onClick(View v) {
-				
+
 				countT1=0;
 				countT2=0;
-				final String count1 ="0";
-				final String count2 = "0";
-				txtT1.setText(count1);
-				txtT2.setText(count2);
-				network();
-				sendData(count1);
-				sendData(count2);
-
+				
+				txtOutput.setText("Team 1  " + countT1 + ":"+ countT2 +"  Team 2");
+				String reset = "reset";
+				try {
+					test(reset);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			}
 		});
 	
-		btnStart.setOnClickListener(new View.OnClickListener() {
+		btnSendtime.setOnClickListener(new View.OnClickListener() {
 
 		    public  void onClick(View v) {
 		        // Handle click event.
 		    	
+		    	String string = null;
+		    	int time;
 				CharSequence inputstring = input.getText();
-				int time = Integer.parseInt(inputstring.toString());
-				//int time = 5;
-				String string = String.valueOf(inputstring);
-				network();
-				sendData(string);
-
-				timer = new CountDownTimer(time*60*1000, 1000) {
+				if (inputstring.length()==0){
+					string = "10";
+					txtOutput.setText("Die Spielzeit beträgt: "+ string + " Minuten!");
+					// send default value
+				}else{
+				time = Integer.parseInt(inputstring.toString());
+				string = String.valueOf(inputstring);
+				txtOutput.setText("Die Spielzeit beträgt: " + string + " Minuten!");
 				
-					 public void onTick(long millisUntilFinished) {
-						 long seconds = millisUntilFinished/1000;
-					     output.setText("time remaining: "+String.format("%02d", seconds / 60) + ":" + String.format("%02d", seconds % 60));
-							
-					 }
-					
-					 public void onFinish() {
-					     output.setText("Spielzeit beendet.");
-					 }
-					};
-				    timer.start();
+				}
+				
 
-					 }
-
-		});
-		buttonStop.setOnClickListener(new View.OnClickListener() {
+				try {
+					test(string);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+		    }
+	});
+	
+		
+		btnBreak.setOnClickListener(new View.OnClickListener(){
+			
+			
 			public void onClick(View v) {
 				
-			//output.setText("blub");
-			timer.cancel();
+				String breakmessage ="stop";
+				txtOutput.setText("Die Spielzeit wurde angehalten! "  + "'"+breakmessage+"'");
 
-			
+				try {
+					test(breakmessage);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				// send- if the arduino is getting this string, he has to stop the timer!
+				
 			}
 		});
+	
 	}
-	
-
-	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -168,28 +203,18 @@ public class MainActivity extends Activity
 		return true;
 	}
 	
-	public void network(){
-		try {
-			String ip = "192.168.0.13";
-			int port = 1234; 
-			sock = new Socket(ip,port);
-			 System.out.println("Connected to:"+ip+" on port:"+port);//debug
-			writer = new PrintWriter(sock.getOutputStream());
-			
-		} catch (IOException ex){
-			ex.printStackTrace();
-
-		}
-		
-	}
-	public void sendData(String value){
-		try{writer.println(value);
-		writer.flush();
-		} catch(Exception ex){
-			ex.printStackTrace();
-		}
-	}
-
-	
-	}
-
+	  void test(String s) throws IOException {
+		  String outputmessage;
+		  String inputmessage;
+		  String ip="192.168.0.13";
+		  int port = 1234;
+		  Socket clientSocket = new Socket(ip,port);
+		  DataOutputStream outToServer = new DataOutputStream(clientSocket.getOutputStream());
+		  BufferedReader inFromServer = new BufferedReader(new InputStreamReader(clientSocket.getInputStream()));
+		  outputmessage = s;
+		  outToServer.writeBytes(outputmessage + '\n');
+		  inputmessage= inFromServer.readLine();
+		  System.out.println("FROM SERVER: " + inputmessage);
+		  clientSocket.close();
+		 }
+}
