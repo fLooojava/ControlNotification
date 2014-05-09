@@ -21,6 +21,9 @@
         <item name="android:shadowRadius">2</item>
         <item name="android:paddingLeft">15dp</item>
         <item name="android:paddingRight">15dp</item>
+      
     </style>
+          <string name="radio_s1">Sound 1</string>
+    <string name="radio_s2">Sound 2</string>
 
 </resources>

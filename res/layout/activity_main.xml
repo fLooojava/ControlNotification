@@ -28,7 +28,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/textView1"
         android:layout_marginTop="94dp"
-        android:background="@drawable/btn_army_glossy"
+                    android:background="@drawable/buttongreen_custom"
         android:minWidth="128dp"
         android:text="+" />
     
@@ -39,7 +39,8 @@
             android:layout_weight="0.2"
           android:layout_below="@id/btnPlusT1"
             android:layout_marginTop="20dp"
-                    android:background="@drawable/btn_white_glossy"
+                    android:background="@drawable/buttonwhite_custom"
+
             
         android:text="-" />
 
@@ -50,7 +51,8 @@
                   android:layout_below="@id/btnPlusT1"
             android:layout_marginTop="20dp"
         android:layout_toRightOf="@id/btnMinT1"
-                    android:background="@drawable/btn_white_glossy"
+                                       android:background="@drawable/buttonwhite_custom"
+
             
         android:text="-" />
 
@@ -62,19 +64,19 @@
     android:layout_below="@id/textView1"
     android:layout_marginTop="94dp"
     android:layout_toRightOf="@id/btnMinT1"
-    android:background="@drawable/btn_army_glossy"
+                    android:background="@drawable/buttongreen_custom"
     android:text="+" />
 
     <Button
         android:id="@+id/btnReset"
+        style="@style/ButtonText"
         android:layout_width="600dp"
         android:layout_height="wrap_content"
         android:layout_alignLeft="@+id/btnMinT1"
         android:layout_alignRight="@+id/btnMinT2"
         android:layout_below="@+id/btnMinT1"
         android:layout_marginTop="33dp"
-                android:background="@drawable/btn_blue_glossy"
-        
+        android:background="@drawable/buttonblue_custom"
         android:text="Reset" />
 
     <Button
@@ -86,37 +88,63 @@
         android:layout_alignRight="@+id/btnPlusT2"
         android:layout_below="@+id/txtInput"
         android:layout_marginTop="27dp"
-        android:background="@drawable/btn_blue_glossy"
+        android:background="@drawable/buttonblue_custom" 
         android:text="Spielzeit senden" />
 
-    <TextView
-        android:id="@+id/txtOutput"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/btnBreak"
+        style="@style/ButtonText"
+        android:layout_width="600dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="54dp"
-        android:text="waiting..."
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:layout_alignLeft="@+id/btnSendtime"
+        android:layout_alignRight="@+id/btnSendtime"
+        android:layout_below="@+id/btnReset"
+        android:background="@drawable/buttonblue_custom"
+        android:text="Unterbrechung/Pause" />
+
+        <!--  android:background="@drawable/btn_blue_glossy"-->
+        
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
         android:layout_alignRight="@+id/btnMinT1"
-        android:layout_alignTop="@+id/txtOutput"
-        android:layout_marginRight="42dp"
+        android:layout_marginBottom="15dp"
+        android:layout_marginRight="41dp"
         android:text="Daten:"
         android:textAppearance="?android:attr/textAppearanceLarge" />
 
-    <Button
-        android:id="@+id/btnBreak"
-        android:layout_width="600dp"
+    <TextView
+        android:id="@+id/txtOutput"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/txtInput"
-        android:layout_below="@+id/textView3"
-        android:layout_marginLeft="23dp"
-        android:background="@drawable/btn_blue_glossy"
-        android:text="Unterbrechung/Pause" />
+        android:layout_alignBottom="@+id/textView3"
+        android:layout_centerHorizontal="true"
+        android:text="waiting..."
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+    
+    
+    <RadioGroup
+        android:id="@+id/radioSound"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" 
+            android:layout_below="@+id/btnBreak">
+ 
+        <RadioButton
+            android:id="@+id/radioS1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_s1" 
+            android:checked="true" />
+ 
+        <RadioButton
+            android:id="@+id/radioS2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/radio_s2" />
+ 
+    </RadioGroup>
 
 </RelativeLayout>
