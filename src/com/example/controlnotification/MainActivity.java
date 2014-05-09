@@ -189,7 +189,12 @@ public class MainActivity extends Activity
 			
 			public void onClick(View v) {
 				txtOutput.setText("1");
-				
+				try {
+					test("s1");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			
 				
 			}
@@ -199,7 +204,12 @@ public class MainActivity extends Activity
 			
 			public void onClick(View v) {
 				txtOutput.setText("2");
-				
+				try {
+					test("s2");
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 			
 				
 			}
