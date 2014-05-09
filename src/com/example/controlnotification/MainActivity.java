@@ -11,7 +11,7 @@ import android.app.Activity;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
-
+import android.widget.RadioButton;
 
 
 import android.widget.TextView;
@@ -42,6 +42,8 @@ public class MainActivity extends Activity
 		final Button btnMinT2 = (Button) findViewById(R.id.btnMinT2);
 		final TextView txtOutput = (TextView)findViewById(R.id.txtOutput);
 		final Button btnBreak = (Button) findViewById(R.id.btnBreak);
+		final RadioButton radioS1 = (RadioButton) findViewById(R.id.radioS1);
+		final RadioButton radioS2 = (RadioButton) findViewById(R.id.radioS2);
 
 		
 		final Button btnReset = (Button) findViewById(R.id.btnReset);
@@ -182,7 +184,28 @@ public class MainActivity extends Activity
 			}
 		});
 	
+		radioS1.setOnClickListener(new View.OnClickListener(){
+			
+			
+			public void onClick(View v) {
+				txtOutput.setText("1");
+				
+			
+				
+			}
+		});
+		radioS2.setOnClickListener(new View.OnClickListener(){
+			
+			
+			public void onClick(View v) {
+				txtOutput.setText("2");
+				
+			
+				
+			}
+		});
 	}
+		
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
